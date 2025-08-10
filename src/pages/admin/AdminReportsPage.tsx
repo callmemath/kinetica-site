@@ -95,7 +95,7 @@ const AdminReportsPage = () => {
         throw new Error('Token non presente');
       }
       
-      const response = await fetch(`http://localhost:3001/api/admin/reports?startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/reports?startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -156,7 +156,7 @@ const AdminReportsPage = () => {
   const exportReport = async (format: 'pdf' | 'excel') => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://localhost:3001/api/admin/reports/export', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/reports/export`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
