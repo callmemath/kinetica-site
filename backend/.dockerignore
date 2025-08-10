@@ -1,3 +1,12 @@
+# FRONTEND FILES - EXCLUDE ALL FRONTEND FROM BACKEND BUILD
+../src/
+../public/
+../index.html
+../vite.config.ts
+../tailwind.config.js
+../postcss.config.js
+../eslint.config.js
+
 # Dependencies
 node_modules
 npm-debug.log*

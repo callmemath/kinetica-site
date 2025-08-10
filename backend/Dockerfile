@@ -13,7 +13,7 @@ COPY package*.json ./
 # Install dependencies (including devDependencies for build)
 RUN npm ci
 
-# Copy ALL necessary configuration files
+# Copy backend-specific tsconfig.json (not the root one)
 COPY tsconfig.json ./
 COPY prisma.config.ts ./
 

@@ -29,12 +29,8 @@ build
 .DS_Store
 Thumbs.db
 
-# Backend specific
-backend/node_modules
-backend/dist
-backend/.env
-backend/prisma/dev.db*
-backend/logs
+# Backend specific - EXCLUDE ENTIRE BACKEND FROM FRONTEND BUILD
+backend/
 
 # Documentation
 *.md
