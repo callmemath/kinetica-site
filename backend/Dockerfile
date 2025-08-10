@@ -5,27 +5,40 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install system dependencies
-RUN apk add --no-cache sqlite
+RUN apk add --no-cache sqlite python3 make g++
 
-# Copy package files
+# Copy package files first
 COPY package*.json ./
-COPY tsconfig*.json ./
 
-# Install dependencies
+# Install dependencies (including devDependencies for build)
 RUN npm ci
 
-# Copy Prisma schema first
+# Copy ALL necessary configuration files
+COPY tsconfig.json ./
+COPY prisma.config.ts ./
+
+# Copy source code and scripts
+COPY src ./src/
+COPY scripts ./scripts/
+
+# Copy Prisma configuration
 COPY prisma ./prisma/
 
 # Generate Prisma client
 RUN npx prisma generate
 
-# Copy source code
-COPY src ./src/
-COPY scripts ./scripts/
+# Debug: Check what files are present
+RUN echo "=== All files in working directory ===" && ls -la
+RUN echo "=== TypeScript config content ===" && cat tsconfig.json
 
 # Build the application
 RUN npm run build
+
+# Verify build output
+RUN echo "=== Build output ===" && ls -la dist/
+
+# Remove devDependencies to reduce image size
+RUN npm ci --only=production && npm cache clean --force
 
 # Create directory for database
 RUN mkdir -p /app/data
