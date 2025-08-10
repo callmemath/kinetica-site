@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Linkedin, Youtube, Globe } from 'lucide-react';
 import { useStudioSettings } from '../hooks/useStudioSettings';
-import logoImage from '../assets/logo.png';
 
 const Footer = () => {
   const { settings } = useStudioSettings();
@@ -45,11 +44,9 @@ const Footer = () => {
             {/* Logo e descrizione */}
             <div className="space-y-4 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <img 
-                  src={logoImage} 
-                  alt="Kinetica Logo" 
-                  className="w-10 h-10 rounded-lg object-contain"
-                />
+                <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-xl">K</span>
+                </div>
                 <div>
                   <h2 className="text-xl font-bold">{settings.studioName}</h2>
                   <p className="text-sm text-gray-400">{settings.studioDescription}</p>

@@ -8,7 +8,6 @@ import ParallaxElement from '../components/ParallaxElement';
 import { useAdvancedAnimation } from '../hooks/useAnimations';
 import { useAuth } from '../hooks/useAuth';
 import { useToastContext } from '../contexts/ToastContext';
-import logoImage from '../assets/logo.png';
 
 interface RegisterForm {
   firstName: string;
@@ -187,11 +186,9 @@ const RegisterPage = () => {
           {/* Logo */}
           <div ref={heroRef} className={`flex justify-center ${heroAnimation}`}>
             <div className="flex items-center space-x-2 animate-fade-in-up">
-              <img 
-                src={logoImage} 
-                alt="Kinetica Logo" 
-                className="w-12 h-12 rounded-lg object-contain group-hover:scale-110 transition-transform duration-300"
-              />
+              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white font-bold text-2xl">K</span>
+              </div>
               <div className="text-left">
                 <h1 className="text-2xl font-bold text-gray-900">Kinetica</h1>
                 <p className="text-sm text-gray-600">Fisioterapia Genova</p>

@@ -1,0 +1,45 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Build outputs
+dist
+
+# Development database
+prisma/dev.db*
+prisma/*.db-journal
+
+# Environment files
+.env*
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Documentation
+*.md
+docs/
+
+# Tests
+**/*.test.*
+**/*.spec.*
+tests/
+coverage/
+
+# Temporary files
+tmp/
+temp/

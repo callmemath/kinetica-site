@@ -31,9 +31,6 @@ export const prisma = new PrismaClient({
   log: process.env.NODE_ENV === 'production' ? ['error'] : ['error', 'warn'],
 });
 
-// For Vercel, we need to handle the serverless environment
-const isVercel = process.env.VERCEL === '1';
-
 // Security: Trust proxy (needed for rate limiting and other middleware behind reverse proxy)
 app.set('trust proxy', 1);
 
@@ -333,11 +330,6 @@ async function startServer() {
 }
 
 // Initialize the application
-if (!isVercel) {
-  startServer();
-} else {
-  // For Vercel, just initialize the database connection
-  connectDatabase().catch(console.error);
-}
+startServer();
 
 export default app;

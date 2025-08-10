@@ -5,7 +5,6 @@ import { useAuth } from '../hooks/useAuth';
 import { useToastContext } from '../contexts/ToastContext';
 import { useStudioSettings } from '../hooks/useStudioSettings';
 import { isAdminOrStaff } from '../utils/roles';
-import logoImage from '../assets/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,11 +39,9 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <img 
-              src={logoImage} 
-              alt="Kinetica Logo" 
-              className="w-10 h-10 rounded-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 group-hover:shadow-lg object-contain"
-            />
+            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 group-hover:shadow-lg">
+              <span className="text-white font-bold text-xl">K</span>
+            </div>
             <div className="group-hover:translate-x-1 transition-transform duration-300">
               <h1 className="text-xl font-bold text-gray-900">{settings?.studioName || 'Kinetica'}</h1>
               <p className="text-sm text-gray-600">{settings?.studioDescription || 'Centro di fisioterapia'}</p>

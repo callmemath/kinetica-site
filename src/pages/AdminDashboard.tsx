@@ -104,7 +104,7 @@ const AdminDashboard = () => {
   // Funzioni API
   const apiCall = async <T,>(endpoint: string, options: RequestInit = {}): Promise<APIResponse<T>> => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+      const response = await fetch(`http://localhost:3001/api${endpoint}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
