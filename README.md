@@ -1,8 +1,122 @@
-# Kinetica Fisioterapia Genova - Frontend
+# 🏥 Kinetica Fisioterapia - Sistema Gestionale Completo
 
-Sito web professionale e WebApp gestionale per lo studio Kinetica Fisioterapia Genova.
+Sistema completo per la gestione di uno studio di fisioterapia con frontend React e backend Node.js, pronto per il deployment su DigitalOcean.
 
-## 🎯 Caratteristiche Principali
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![React](https://img.shields.io/badge/React-18+-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+![DigitalOcean](https://img.shields.io/badge/DigitalOcean-Ready-blue)
+
+## 🚀 Funzionalità
+
+### 👥 **Gestione Utenti**
+- Registrazione e autenticazione pazienti
+- Sistema OTP per sicurezza avanzata
+- Gestione profili e storico
+
+### 📅 **Sistema Prenotazioni**
+- Prenotazioni online intuitive
+- Calendario dinamico disponibilità
+- Conferme automatiche via email
+- Sistema reminder automatico
+
+### 🏥 **Pannello Amministrativo**
+- Dashboard completa con statistiche
+- Gestione staff e servizi
+- Reports dettagliati fatturato
+- Controllo completo prenotazioni
+
+### 📧 **Sistema Email Dinamico**
+- Template professionali personalizzabili
+- Informazioni studio dinamiche da database
+- Conferme, reminder e notifiche
+- Integrazione SMTP sicura
+
+### 🔒 **Sicurezza Enterprise**
+- Rate limiting avanzato
+- Headers di sicurezza completi
+- Validazione input rigorosa
+- Sessioni sicure con JWT
+
+## 🏗️ Architettura
+
+```
+Frontend (React + Vite)
+       ↓
+   Nginx Proxy
+       ↓
+Backend (Node.js + Express)
+       ↓
+Database (SQLite/PostgreSQL)
+```
+
+## 📦 Stack Tecnologico
+
+### **Frontend**
+- **React 18** con TypeScript
+- **Vite** per build ottimizzate
+- **TailwindCSS** per UI responsive
+- **React Router** per SPA
+- **React Hook Form** + Zod validation
+
+### **Backend**
+- **Node.js 18** con Express
+- **TypeScript** per type safety
+- **Prisma ORM** per database
+- **JWT** per autenticazione
+- **Nodemailer** per email
+- **Helmet** + rate limiting per sicurezza
+
+### **Database**
+- **SQLite** (default)
+- **PostgreSQL** (production ready)
+- Schema completo con relazioni
+
+### **DevOps**
+- **Docker** + Docker Compose
+- **Nginx** reverse proxy
+- **SSL** automatico con Let's Encrypt
+- **Backup** automatici database
+
+## 🚀 Quick Start
+
+### **Sviluppo Locale**
+
+```bash
+# Clone del repository
+git clone https://github.com/USERNAME/kinetica-fisioterapia.git
+cd kinetica-fisioterapia
+
+# Setup completo
+npm run setup
+
+# Avvio development
+npm run dev:fullstack
+```
+
+Accedi a:
+- **Frontend**: http://localhost:5174
+- **Backend API**: http://localhost:3001
+- **Admin Panel**: http://localhost:5174/admin
+
+### **Deploy Produzione su DigitalOcean**
+
+```bash
+# Test pre-deployment
+./test-deployment.sh
+
+# Configura environment
+cp .env.backend.production backend/.env
+# Modifica con i tuoi dati reali
+
+# Deploy automatico
+export DROPLET_IP="YOUR_DROPLET_IP"
+export DOMAIN="your-domain.com"  # opzionale
+./deploy-digitalocean.sh
+```
+
+📖 **Guida completa**: [DIGITALOCEAN-DEPLOY.md](./DIGITALOCEAN-DEPLOY.md)
 
 ### Sito Vetrina (Pubblico)
 - **Homepage** con presentazione dello studio e call-to-action "Prenota Ora"
