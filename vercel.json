@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "kinetica-fisioterapia",
+  "buildCommand": "npm run vercel-build",
   "builds": [
     {
       "src": "package.json",
@@ -8,24 +9,12 @@
       "config": {
         "distDir": "dist"
       }
-    },
-    {
-      "src": "backend/dist/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "backend/dist/**",
-          "backend/prisma/**",
-          "backend/node_modules/.prisma/**",
-          "backend/node_modules/@prisma/client/**"
-        ]
-      }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/dist/index.js"
+      "dest": "/api/index.ts"
     },
     {
       "src": "/(.*)",
@@ -36,7 +25,7 @@
     "NODE_ENV": "production"
   },
   "functions": {
-    "backend/dist/index.js": {
+    "api/index.ts": {
       "maxDuration": 30
     }
   }

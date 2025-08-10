@@ -1,0 +1,208 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  firstName       String
+  lastName        String
+  phone           String?
+  password        String
+  role            String    @default("USER") // USER, STAFF, ADMIN
+  isVerified      Boolean   @default(false)
+  dateOfBirth     DateTime?
+  address         String?
+  city            String?
+  postalCode      String?
+  emergencyContact String?
+  medicalNotes    String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  bookings        Booking[]
+  otpCodes        OtpCode[]
+  staffProfile    Staff?    // Un utente può essere associato a un profilo staff
+
+  @@map("users")
+}
+
+model Staff {
+  id              String   @id @default(cuid())
+  userId          String   @unique // Obbligatorio: ogni staff deve avere un account utente
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName       String
+  lastName        String
+  email           String   @unique
+  phone           String?
+  specialization  String   // Specializzazione principale
+  yearsOfExperience Int?   // Anni di esperienza professionale
+  bio             String?  // Biografia/descrizione
+  avatar          String?  // URL dell'immagine profilo
+  isActive        Boolean  @default(true)
+  workingHours    String?  // JSON string con orari di lavoro per ogni giorno
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  services        ServiceStaff[] // Servizi che può erogare
+  bookings        Booking[]
+  blocks          StaffBlock[]   // Blocchi orari (vacanze, assenze, etc.)
+
+  @@map("staff")
+}
+
+model StaffBlock {
+  id           String   @id @default(cuid())
+  staffId      String
+  staff        Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  startDate    DateTime
+  endDate      DateTime
+  startTime    String   // HH:MM format - ora di inizio nel primo giorno
+  endTime      String   // HH:MM format - ora di fine nell'ultimo giorno
+  allDayStart  Boolean  @default(false) // Se true, il primo giorno è bloccato dall'inizio
+  allDayEnd    Boolean  @default(false) // Se true, l'ultimo giorno è bloccato fino alla fine
+  reason       String
+  type         String   // VACATION, SICK_LEAVE, TRAINING, OTHER
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("staff_blocks")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  value     String   @unique // valore interno (es. "fisioterapia")
+  label     String   // etichetta visualizzata (es. "Fisioterapia")
+  color     String   @default("#3da4db") // colore per la UI
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  services  Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  duration    Int      // Durata in minuti
+  price       Float    // Prezzo in euro (usando Float invece di Decimal per SQLite)
+  categoryId  String   // Foreign key per Category
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  color       String   @default("#3da4db") // Colore per la UI
+  imageUrl    String?  // URL dell'immagine del servizio
+  isActive    Boolean  @default(true)
+  
+  // Disponibilità per prenotazioni
+  availability String?  // JSON string con giorni e orari disponibili per le prenotazioni
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  staff       ServiceStaff[] // Staff che può erogare questo servizio
+  bookings    Booking[]
+
+  @@map("services")
+}
+
+model ServiceStaff {
+  id        String  @id @default(cuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  staffId   String
+  staff     Staff   @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([serviceId, staffId])
+  @@map("service_staff")
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  code      String
+  type      String   // REGISTRATION, LOGIN, PASSWORD_RESET
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("otp_codes")
+}
+
+model Booking {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId     String
+  service       Service   @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  staffId       String
+  staff         Staff     @relation(fields: [staffId], references: [id], onDelete: Restrict)
+  date          DateTime
+  startTime     String    // Orario di inizio (es. "09:30")
+  endTime       String    // Orario di fine (es. "10:30")
+  notes         String?
+  status        String    @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  
+  // Campi per pagamento e importo
+  amount        Float?    // Importo della prenotazione (può essere diverso dal prezzo del servizio)
+  isPaid        Boolean   @default(false) // Stato del pagamento
+  paymentDate   DateTime? // Data del pagamento
+  paymentMethod String?   // Metodo di pagamento (CASH, CARD, TRANSFER, etc.)
+  
+  // Email notifications
+  reminderSent  Boolean   @default(false) // Se è stato inviato il reminder 24h prima
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("bookings")
+}
+
+model StudioSettings {
+  id          String   @id @default(cuid())
+  
+  // Informazioni generali
+  studioName        String
+  studioDescription String
+  address           String
+  city              String
+  phone             String
+  email             String
+  website           String?
+  
+  // Orari di apertura (JSON format)
+  openingHours      String // JSON string con orari per ogni giorno
+  
+  // Impostazioni prenotazioni (JSON format)
+  bookingSettings   String // JSON string con impostazioni prenotazioni
+  
+  // Impostazioni notifiche (JSON format)
+  notificationSettings String // JSON string con impostazioni notifiche
+  
+  // Tema e personalizzazione (JSON format)
+  themeSettings     String // JSON string con impostazioni tema
+  
+  // Social Media (JSON format)
+  socialMedia       String? // JSON string con link ai social media
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("studio_settings")
+}

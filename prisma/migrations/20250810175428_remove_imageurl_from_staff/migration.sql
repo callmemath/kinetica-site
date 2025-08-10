@@ -1,0 +1,33 @@
+/*
+  Warnings:
+
+  - You are about to drop the column `imageUrl` on the `staff` table. All the data in the column will be lost.
+
+*/
+-- RedefineTables
+PRAGMA defer_foreign_keys=ON;
+PRAGMA foreign_keys=OFF;
+CREATE TABLE "new_staff" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT,
+    "specialization" TEXT NOT NULL,
+    "yearsOfExperience" INTEGER,
+    "bio" TEXT,
+    "avatar" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "workingHours" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "staff_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO "new_staff" ("avatar", "bio", "createdAt", "email", "firstName", "id", "isActive", "lastName", "phone", "specialization", "updatedAt", "userId", "workingHours", "yearsOfExperience") SELECT "avatar", "bio", "createdAt", "email", "firstName", "id", "isActive", "lastName", "phone", "specialization", "updatedAt", "userId", "workingHours", "yearsOfExperience" FROM "staff";
+DROP TABLE "staff";
+ALTER TABLE "new_staff" RENAME TO "staff";
+CREATE UNIQUE INDEX "staff_userId_key" ON "staff"("userId");
+CREATE UNIQUE INDEX "staff_email_key" ON "staff"("email");
+PRAGMA foreign_keys=ON;
+PRAGMA defer_foreign_keys=OFF;
