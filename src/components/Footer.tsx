@@ -44,8 +44,12 @@ const Footer = () => {
             {/* Logo e descrizione */}
             <div className="space-y-4 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start space-x-2">
-                <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">K</span>
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                  <img 
+                    src="/logo.png" 
+                    alt="Kinetica Logo" 
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold">{settings.studioName}</h2>

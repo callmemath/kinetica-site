@@ -109,8 +109,12 @@ const LoginPage = () => {
         {/* Logo */}
         <div className="flex justify-center">
           <div className="flex items-center space-x-2">
-            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">K</span>
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-lg">
+              <img 
+                src="/logo.png" 
+                alt="Kinetica Logo" 
+                className="w-10 h-10 object-contain"
+              />
             </div>
             <div className="text-left">
               <h1 className="text-2xl font-bold text-gray-900">Kinetica</h1>
@@ -266,31 +270,6 @@ const LoginPage = () => {
                       </>
                     )}
                   </button>
-                  
-                  <div className="text-center">
-                    <span className="text-sm text-gray-500">oppure</span>
-                  </div>
-                  
-                  <button
-                    type="button"
-                    onClick={() => {
-                      console.log('🎯 DEMO LOGIN BUTTON CLICKED');
-                      // Demo login diretto
-                      const demoCredentials = { email: 'giulia@example.com', password: 'password1234', otp: '' };
-                      onSubmit(demoCredentials);
-                    }}
-                    disabled={isLoading}
-                    className="btn-secondary w-full flex justify-center"
-                  >
-                    {isLoading ? (
-                      <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        <LogIn className="w-5 h-5 mr-2" />
-                        Accesso diretto (Demo)
-                      </>
-                    )}
-                  </button>
                 </>
               ) : (
                 <>
@@ -323,16 +302,6 @@ const LoginPage = () => {
               )}
             </div>
           </form>
-
-          {/* Demo Accounts Info */}
-          <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-            <h3 className="text-sm font-medium text-blue-900 mb-2">Account Demo:</h3>
-            <div className="text-xs text-blue-700 space-y-1">
-              <p><strong>Paziente:</strong> paziente@demo.com</p>
-              <p><strong>Staff:</strong> staff@kinetica.it</p>
-              <p><strong>Codice OTP:</strong> 123456 (qualsiasi codice)</p>
-            </div>
-          </div>
 
           {/* Footer Links */}
           <div className="mt-6 text-center space-y-2">

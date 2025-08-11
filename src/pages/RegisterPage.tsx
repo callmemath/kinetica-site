@@ -186,8 +186,12 @@ const RegisterPage = () => {
           {/* Logo */}
           <div ref={heroRef} className={`flex justify-center ${heroAnimation}`}>
             <div className="flex items-center space-x-2 animate-fade-in-up">
-              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white font-bold text-2xl">K</span>
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-lg transition-transform duration-300">
+                <img 
+                  src="/logo.png" 
+                  alt="Kinetica Logo" 
+                  className="w-10 h-10 object-contain"
+                />
               </div>
               <div className="text-left">
                 <h1 className="text-2xl font-bold text-gray-900">Kinetica</h1>

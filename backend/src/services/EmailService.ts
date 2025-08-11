@@ -1,23 +1,15 @@
-import * as nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 import { PrismaClient } from '@prisma/client';
 
 export class EmailService {
-  private transporter: nodemailer.Transporter;
   private prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
-    // For development, we'll use a test account
-    // In production, configure with your actual SMTP settings
-    this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.SMTP_USER || '',
-        pass: process.env.SMTP_PASS || '',
-      },
-    });
+    // Configure SendGrid
+    if (process.env.SENDGRID_API_KEY) {
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    }
   }
 
   /**
@@ -114,7 +106,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Verification email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);
@@ -167,7 +159,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Login OTP email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);
@@ -220,7 +212,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Password reset email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);
@@ -341,7 +333,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Booking confirmation email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);
@@ -461,7 +453,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Booking reminder email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);
@@ -555,7 +547,7 @@ export class EmailService {
         return;
       }
       
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
       console.log('📧 Booking cancellation email sent to:', email);
     } catch (error) {
       console.error('Email sending error:', error);

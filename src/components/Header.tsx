@@ -39,8 +39,12 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 group-hover:shadow-lg">
-              <span className="text-white font-bold text-xl">K</span>
+            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 group-hover:shadow-lg overflow-hidden">
+              <img 
+                src="/logo.png" 
+                alt="Kinetica Logo" 
+                className="w-8 h-8 object-contain"
+              />
             </div>
             <div className="group-hover:translate-x-1 transition-transform duration-300">
               <h1 className="text-xl font-bold text-gray-900">{settings?.studioName || 'Kinetica'}</h1>
